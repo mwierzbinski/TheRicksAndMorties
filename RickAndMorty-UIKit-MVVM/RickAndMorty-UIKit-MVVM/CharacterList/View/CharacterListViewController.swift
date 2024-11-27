@@ -5,25 +5,26 @@ private enum Constants {
 	static let cellIdentifier = "RickAndMortyCellIdentifier"
 }
 
-class ListViewController: UIViewController {
+class CharacterListViewController: UIViewController, CharacterListViewModelOutput {
 	
 	let tableView = UITableView()
-	let viewModel: RickAndMortyViewModel = .init(api: ClientAPI())
-	
+    
+    let viewModel: CharacterListViewModelProtocol = CharacterListViewModel()
+    
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
 		view.addSubview(tableView)
 		view.backgroundColor = .white
-		
-		viewModel.fetchData { [weak self] _ in
-			self?.tableView.reloadData()
-		}
-		
-		setupTableView()
+        
+        viewModel.delegate = self
+        
+        setupTableView()
+        
+		viewModel.fetchCharacters()
 	}
 	
-	func setupTableView() {
+	private func setupTableView() {
 		tableView.dataSource = self
 		tableView.delegate = self
 		
@@ -36,23 +37,24 @@ class ListViewController: UIViewController {
 			tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 			])
 		
-		
-		// Register a basic UITableViewCell for reuse
 		tableView.register(UITableViewCell.self, forCellReuseIdentifier: Constants.cellIdentifier)
 	}
-	
+    
+    func updateUI() {
+        tableView.reloadData()
+    }
 }
 
-extension ListViewController: UITableViewDelegate { }
+extension CharacterListViewController: UITableViewDelegate { }
 
-extension ListViewController: UITableViewDataSource {
+extension CharacterListViewController: UITableViewDataSource {
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		viewModel.items.count
+        viewModel.viewState.items.count
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath) // TODO check this
-		cell.textLabel?.text = viewModel.items[indexPath.row].name
+		let cell = tableView.dequeueReusableCell(withIdentifier: Constants.cellIdentifier, for: indexPath)
+        cell.textLabel?.text = viewModel.viewState.items[indexPath.row].name
 		return cell
 	}
 	
