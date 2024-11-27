@@ -1,15 +1,16 @@
 
 class RickAndMortyViewModel {
 	
-	private let api: ClientAPI
+	private let api: CharactersAPIProtocol
 	var items: [Character] = []
 	
-	init(api: ClientAPI) {
+	init(api: CharactersAPIProtocol) {
 		self.api = api
 	}
 	
 	func fetchData(onCompletion: @escaping ([Character]) -> Void) {
-		api.getCharacters { [weak self] data in
+        api.getCharacters { [weak self] data, error  in
+            guard let data else { return }
 			print("Received data \(data)")
 			self?.items = data
 			onCompletion(data)

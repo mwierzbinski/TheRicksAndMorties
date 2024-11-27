@@ -29,19 +29,18 @@ final class RickAndMortyAPITests: XCTestCase {
     }
     
     func test_if_dataIsCorrupted_then_resultIsEmptyAndErrorIsLogged() {
-        let expectation = XCTestExpectation(description: "getCharacters called")
-        let expected: [Character] = []
+        let expectation = XCTestExpectation(description: "")
         let expectedError: ClientAPI.Error = ClientAPI.Error.invalidJSON
         
         sessionMock.data = CharacterTestData.corruptedJson.data(using: .utf8)
         
-        sut.getCharacters() { [weak self] result in
+        sut.getCharacters() { [weak self] result, error in
             XCTAssertTrue(self?.errorHandlerMock.logCalledCount == 1)
             XCTAssertEqual(
                 expectedError.errorHandlerDescription(),
                 self?.errorHandlerMock.loggedError?.errorHandlerDescription()
             )
-            XCTAssertEqual(expected, result)
+            XCTAssertNil(result)
             expectation.fulfill()
         }
         
@@ -49,12 +48,12 @@ final class RickAndMortyAPITests: XCTestCase {
     }
     
     func test_if_dataIsCorrect_then_onCompletionWithDataIsCalled() {
-        let expectation = XCTestExpectation(description: "getCharacters called")
+        let expectation = XCTestExpectation(description: "")
         let expected: [Character] = [CharacterTestData.character]
         
         sessionMock.data = CharacterTestData.correctJason.data(using: .utf8)
         
-        sut.getCharacters() { [weak self] result in
+        sut.getCharacters() { [weak self] result, error in
             XCTAssertTrue(self?.errorHandlerMock.logCalledCount == 0)
             XCTAssertEqual(expected, result)
             expectation.fulfill()
@@ -64,19 +63,18 @@ final class RickAndMortyAPITests: XCTestCase {
     }
     
     func test_if_dataIsEmpty_then_errorIsLogged() {
-        let expectation = XCTestExpectation(description: "getCharacters called")
-        let expected: [Character] = []
+        let expectation = XCTestExpectation(description: "")
         let expectedError: ClientAPI.Error = ClientAPI.Error.invalidData
         
         sessionMock.data = nil
         
-        sut.getCharacters() { [weak self] result in
+        sut.getCharacters() { [weak self] result, error in
             XCTAssertTrue(self?.errorHandlerMock.logCalledCount == 1)
             XCTAssertEqual(
                 expectedError.errorHandlerDescription(),
                 self?.errorHandlerMock.loggedError?.errorHandlerDescription()
             )
-            XCTAssertEqual(expected, result)
+            XCTAssertNil(result)
             expectation.fulfill()
         }
         
