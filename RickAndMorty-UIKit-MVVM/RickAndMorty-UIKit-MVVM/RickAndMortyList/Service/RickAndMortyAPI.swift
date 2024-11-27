@@ -29,6 +29,9 @@ class RickAndMortyAPI {
 		urlSession.dataTask(with: URLRequest(url: url)) { [weak self] data, _, error in
 			guard let data else {
 				self?.errorHandler.log(error: "Empty data")
+                DispatchQueue.main.async {
+                    onCompletion([])
+                }
 				return
 			}
 			
@@ -41,9 +44,11 @@ class RickAndMortyAPI {
 				
 			} catch {
 				self?.errorHandler.log(error: error.localizedDescription)
+                DispatchQueue.main.async {
+                    onCompletion([])
+                }
 			}
-			
-			onCompletion([])
+
 		}.resume()
 	}
 	
@@ -54,37 +59,4 @@ struct ErrorHandler {
 	func log(error: String) {
 		print("⚠️ Error: \(error)")
 	}
-}
-
-
-import Foundation
-
-// MARK: - Welcome
-struct Welcome: Codable {
-		let info: Info
-		let results: [Character]
-}
-
-// MARK: - Info
-struct Info: Codable {
-		let count, pages: Int
-		let next, prev: String?
-}
-
-// MARK: - Result
-struct Character: Codable {
-		let id: Int
-		let name, status, species, type: String
-		let gender: String
-		let origin, location: Location
-		let image: String
-		let episode: [String]
-		let url: String
-		let created: String
-}
-
-// MARK: - Location
-struct Location: Codable {
-		let name: String
-		let url: String
 }
