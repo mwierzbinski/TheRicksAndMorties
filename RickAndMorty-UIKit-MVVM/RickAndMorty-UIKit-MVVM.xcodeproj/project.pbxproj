@@ -24,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		90BAF2EB2CF75C9200D00F74 /* RickAndMorty-UIKit-MVVM.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "RickAndMorty-UIKit-MVVM.xctestplan"; sourceTree = "<group>"; };
 		90EA506E2CB2BDA3002D7A25 /* RickAndMorty-UIKit-MVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RickAndMorty-UIKit-MVVM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		90EA50842CB2BDA5002D7A25 /* RickAndMorty-UIKit-MVVMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RickAndMorty-UIKit-MVVMTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		90EA508E2CB2BDA5002D7A25 /* RickAndMorty-UIKit-MVVMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RickAndMorty-UIKit-MVVMUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +89,7 @@
 		90EA50652CB2BDA3002D7A25 = {
 			isa = PBXGroup;
 			children = (
+				90BAF2EB2CF75C9200D00F74 /* RickAndMorty-UIKit-MVVM.xctestplan */,
 				90EA50702CB2BDA3002D7A25 /* RickAndMorty-UIKit-MVVM */,
 				90EA50872CB2BDA5002D7A25 /* RickAndMorty-UIKit-MVVMTests */,
 				90EA50912CB2BDA5002D7A25 /* RickAndMorty-UIKit-MVVMUITests */,

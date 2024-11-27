@@ -1,10 +1,10 @@
 
 class RickAndMortyViewModel {
 	
-	private let api: RickAndMortyAPI
+	private let api: ClientAPI
 	var items: [Character] = []
 	
-	init(api: RickAndMortyAPI) {
+	init(api: ClientAPI) {
 		self.api = api
 	}
 	

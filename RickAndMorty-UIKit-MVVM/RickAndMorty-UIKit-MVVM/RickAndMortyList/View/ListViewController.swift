@@ -8,7 +8,7 @@ private enum Constants {
 class ListViewController: UIViewController {
 	
 	let tableView = UITableView()
-	let viewModel: RickAndMortyViewModel = .init(api: RickAndMortyAPI())
+	let viewModel: RickAndMortyViewModel = .init(api: ClientAPI())
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()

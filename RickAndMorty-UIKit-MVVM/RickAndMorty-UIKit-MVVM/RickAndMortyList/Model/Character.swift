@@ -1,6 +1,6 @@
 import Foundation
 
-struct Character: Codable {
+struct Character: Codable, Equatable {
         let id: Int
         let name, status, species, type: String
         let gender: String
