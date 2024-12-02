@@ -86,9 +86,9 @@ enum CharacterTestData {
     static let character: Character = .init(
         id: 1,
         name: "Rick Sanchez",
-        status: "Alive",
-        species: "Human",
-        type: "",
+        species: "Alive",
+        type: "Human",
+        status: "",
         gender: "Male",
         origin: .init(name: "Earth", url: "https://rickandmortyapi.com/api/location/1"),
         location: .init(name: "Earth", url: "https://rickandmortyapi.com/api/location/20"),

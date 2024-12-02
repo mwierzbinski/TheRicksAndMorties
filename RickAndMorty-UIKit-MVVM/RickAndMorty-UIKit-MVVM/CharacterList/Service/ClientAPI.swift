@@ -67,7 +67,7 @@ extension ClientAPI: CharactersAPIProtocol {
                 let jsonResult = try JSONDecoder().decode(Welcome.self, from: data)
                 
                 DispatchQueue.main.async {
-                    print("🚀 Characters found... \(jsonResult)")
+                    print("🚀 Characters found!")
                     onCompletion(jsonResult.results, nil)
                 }
                 

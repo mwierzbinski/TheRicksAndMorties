@@ -29,6 +29,8 @@ class CharacterListViewController: UIViewController, CharacterListViewModelOutpu
         return collectionView
     }()
     
+    var infoView: UIView? = nil
+    
     let viewModel: CharacterListViewModelProtocol = CharacterListViewModel()
 
     override func viewDidLoad() {
@@ -50,16 +52,36 @@ class CharacterListViewController: UIViewController, CharacterListViewModelOutpu
         view.addSubview(charactersView)
     }
     
-    func updateUI() {
-        charactersView.reloadData()
-    }
-    
     private func layoutUI() {
+        // describe - two ways of doing this
         charactersView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         charactersView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: Constants.padding).isActive = true
         charactersView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -Constants.padding).isActive = true
         charactersView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         charactersView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    func updateUI() {
+        infoView?.removeFromSuperview()
+        infoView = nil
+        
+        if let infoView = CharacterViewFactory.makeCharacterView(with: viewModel.viewState) {
+            self.infoView = infoView
+            view.addSubview(infoView)
+        }
+        
+        charactersView.reloadData()
+        updateLayout()
+    }
+    
+    private func updateLayout() {
+        if let infoView {
+            infoView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80).isActive = true
+            infoView.leadingAnchor.constraint(equalTo: charactersView.leadingAnchor).isActive = true
+            infoView.trailingAnchor.constraint(equalTo: charactersView.trailingAnchor).isActive = true
+            infoView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+            infoView.translatesAutoresizingMaskIntoConstraints = false
+        }
     }
 }
 
@@ -74,31 +96,30 @@ extension CharacterListViewController: UICollectionViewDelegateFlowLayout {
 
 extension CharacterListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.viewState.items.count
+        viewModel.viewState.characters.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChracterViewCell.identifier, for: indexPath) as! ChracterViewCell
-        cell.configure(with: viewModel.viewState.items[indexPath.row])
+        cell.configure(with: viewModel.viewState.characters[indexPath.row])
         return cell
     }
 }
 
-extension UIColor {
-    static var primary: UIColor {
-        .init(red: 60/256, green: 62/256, blue: 68/256, alpha: 1)
-    }
+struct CharacterViewFactory {
     
-    static var secondary: UIColor {
-        .init(red: 39/256, green: 43/256, blue: 51/256, alpha: 1)
+    static func makeCharacterView(with state: CharacterListViewModel.ViewState) -> UIView? {
+        switch state {
+        case let .loading(state):
+            return EmptyView(state: state)
+        case let .empty(state):
+            return EmptyView(state: state)
+        case let .error(state):
+            return ErrorView(state: state)
+        case .loaded:
+            return nil
+        case .initial:
+            return InitialView()
+        }
     }
-    
-    static var secondaryText: UIColor {
-        .init(red: 158/256, green: 158/256, blue: 158/256, alpha: 1)
-    }
-    
-    static var primaryText: UIColor {
-        .white
-    }
-    
 }

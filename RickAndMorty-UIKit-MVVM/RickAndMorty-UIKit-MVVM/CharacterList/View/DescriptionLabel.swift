@@ -84,7 +84,6 @@ final class DescriptionLabel: UIView {
         speciesLabel.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    
 }
 
 private extension UIColor {
