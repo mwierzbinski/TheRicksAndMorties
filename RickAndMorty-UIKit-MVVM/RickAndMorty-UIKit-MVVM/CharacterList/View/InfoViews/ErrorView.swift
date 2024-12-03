@@ -1,5 +1,6 @@
 import UIKit
 
+// Imagine this is totally different view then other views.
 class ErrorView: UIView {
     
     enum Constants {

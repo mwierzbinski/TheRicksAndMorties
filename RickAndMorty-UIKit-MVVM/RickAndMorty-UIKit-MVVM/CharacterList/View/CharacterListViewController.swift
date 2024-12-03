@@ -41,6 +41,10 @@ class CharacterListViewController: UIViewController, CharacterListViewModelOutpu
         setupUI()
         layoutUI()
         updateUI()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         viewModel.fetchCharacters()
     }

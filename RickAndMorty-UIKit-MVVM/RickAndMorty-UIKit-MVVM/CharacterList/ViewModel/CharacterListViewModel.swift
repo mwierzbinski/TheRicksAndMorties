@@ -1,5 +1,8 @@
-
 // ask - enum RickAndMortyList { }
+
+/*
+ [ ] Dodac detailsView
+ */
 
 protocol CharacterListViewModelProtocol: AnyObject {
     var viewState: CharacterListViewModel.ViewState { get }
@@ -7,15 +10,6 @@ protocol CharacterListViewModelProtocol: AnyObject {
     
     func fetchCharacters()
 }
-
-/*
- [v] Sprawdzic dane przekazywane do modelu
- [v] dodac error View
- [ ] logika do generowania viewstateu
- [ ] zmienic initial and loading
- [ ] Dodac testy
- [ ] Dodac detailsView
- */
 
 protocol CharacterListViewModelOutput: AnyObject {
     
@@ -47,7 +41,7 @@ class CharacterListViewModel {
     }
     
     private func toViewState(with data: [Character]?, error: ClientAPI.Error?) -> ViewState {
-        if let error {
+        if error != nil {
             // Depending on Errors this can even be a factory to create a proper message for each error
             return .error(state: ErrorViewState(title: "Error, error!", subtitle: "Something went really wrong", image: "ram-error", buttonTitle: "AAArgghhh" ))
         }
@@ -72,16 +66,19 @@ class CharacterListViewModel {
 
 extension CharacterListViewModel: CharacterListViewModelProtocol {
     func fetchCharacters() {
+        viewState = .loading(state: .loading)
         dependencies.api.getCharacters { [weak self] data, error  in
             if let viewState = self?.toViewState(with: data, error: error) {
                 self?.viewState = viewState
+            } else {
+                // Should we handle this situation?
             }
         }
     }
 }
 
 extension CharacterListViewModel {
-    enum ViewState {
+    enum ViewState: Equatable {
         case initial
         case loading(state: EmptyViewState)
         case loaded(items: [CharacterCellViewState])
@@ -89,35 +86,21 @@ extension CharacterListViewModel {
         case empty(state: EmptyViewState)
     }
     
-    struct EmptyViewState {
-        let title: String
-        let subtitle: String
-        let image: String
-        let buttonTitle: String
-        
-        static let empty: EmptyViewState = .init(
-            title: "No characters found",
-            subtitle: "Please try again later",
-            image: "ram-empty",
-            buttonTitle: "Refresh"
-        )
-        
-        static let loading: EmptyViewState = .init(
-            title: "Loading",
-            subtitle: "More, More load MORE!!!",
-            image: "ram-initial",
-            buttonTitle: "Refresh"
-        )
-    }
-    
-    struct ErrorViewState {
+    struct EmptyViewState: Equatable {
         let title: String
         let subtitle: String
         let image: String
         let buttonTitle: String
     }
     
-    struct CharacterCellViewState {
+    struct ErrorViewState: Equatable {
+        let title: String
+        let subtitle: String
+        let image: String
+        let buttonTitle: String
+    }
+    
+    struct CharacterCellViewState: Equatable {
         let image: String
         let name: String
         let status: String
@@ -141,4 +124,20 @@ extension CharacterListViewModel.ViewState {
         case let .loaded(items): return items
         }
     }
+}
+
+private extension CharacterListViewModel.EmptyViewState {
+    static let empty: CharacterListViewModel.EmptyViewState = .init(
+        title: "No characters found",
+        subtitle: "Please try again later",
+        image: "ram-empty",
+        buttonTitle: "Refresh"
+    )
+    
+    static let loading: CharacterListViewModel.EmptyViewState = .init(
+        title: "Loading",
+        subtitle: "More, More load MORE!!!",
+        image: "ram-initial",
+        buttonTitle: "Refresh"
+    )
 }
