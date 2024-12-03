@@ -1,14 +1,11 @@
 // ask - enum RickAndMortyList { }
 
-/*
- [ ] Dodac detailsView
- */
-
 protocol CharacterListViewModelProtocol: AnyObject {
     var viewState: CharacterListViewModel.ViewState { get }
     var delegate: CharacterListViewModelOutput? { set get }
     
     func fetchCharacters()
+    func getCharacterModel(for index: Int) -> Character?
 }
 
 protocol CharacterListViewModelOutput: AnyObject {
@@ -26,7 +23,12 @@ class CharacterListViewModel {
         }
     }
     
+    struct Model {
+        var characters: [Character]?
+    }
+    
     private let dependencies: Dependencies
+    private var model: Model?
     
     weak var delegate: CharacterListViewModelOutput?
     
@@ -69,11 +71,16 @@ extension CharacterListViewModel: CharacterListViewModelProtocol {
         viewState = .loading(state: .loading)
         dependencies.api.getCharacters { [weak self] data, error  in
             if let viewState = self?.toViewState(with: data, error: error) {
+                self?.model = .init(characters: data)
                 self?.viewState = viewState
             } else {
                 // Should we handle this situation?
             }
         }
+    }
+    
+    func getCharacterModel(for index: Int) -> Character? {
+        return model?.characters?[index]
     }
 }
 

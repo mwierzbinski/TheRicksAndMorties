@@ -108,6 +108,16 @@ extension CharacterListViewController: UICollectionViewDataSource {
         cell.configure(with: viewModel.viewState.characters[indexPath.row])
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let character = viewModel.getCharacterModel(for: indexPath.row) {
+            let detailVM = CharacterDetailViewModel(model: .init(character: character))
+            let detailsVC = CharacterDetailViewController(viewModel: detailVM)
+            navigationController?.pushViewController(detailsVC, animated: true)
+        } else {
+            // Handle error if needed
+        }
+    }
 }
 
 struct CharacterViewFactory {
