@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		90BAF3262CFA007F00D00F74 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 90BAF3252CFA007F00D00F74 /* SDWebImage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		90EA50852CB2BDA5002D7A25 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		90BAF2EB2CF75C9200D00F74 /* RickAndMorty-UIKit-MVVM.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "RickAndMorty-UIKit-MVVM.xctestplan"; sourceTree = "<group>"; };
 		90EA506E2CB2BDA3002D7A25 /* RickAndMorty-UIKit-MVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RickAndMorty-UIKit-MVVM.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		90EA50842CB2BDA5002D7A25 /* RickAndMorty-UIKit-MVVMTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RickAndMorty-UIKit-MVVMTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		90EA508E2CB2BDA5002D7A25 /* RickAndMorty-UIKit-MVVMUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RickAndMorty-UIKit-MVVMUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90BAF3262CFA007F00D00F74 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,12 +91,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		90BAF3242CFA007F00D00F74 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		90EA50652CB2BDA3002D7A25 = {
 			isa = PBXGroup;
 			children = (
+				90BAF2EB2CF75C9200D00F74 /* RickAndMorty-UIKit-MVVM.xctestplan */,
 				90EA50702CB2BDA3002D7A25 /* RickAndMorty-UIKit-MVVM */,
 				90EA50872CB2BDA5002D7A25 /* RickAndMorty-UIKit-MVVMTests */,
 				90EA50912CB2BDA5002D7A25 /* RickAndMorty-UIKit-MVVMUITests */,
+				90BAF3242CFA007F00D00F74 /* Frameworks */,
 				90EA506F2CB2BDA3002D7A25 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -125,6 +140,7 @@
 			);
 			name = "RickAndMorty-UIKit-MVVM";
 			packageProductDependencies = (
+				90BAF3252CFA007F00D00F74 /* SDWebImage */,
 			);
 			productName = "RickAndMorty-UIKit-MVVM";
 			productReference = 90EA506E2CB2BDA3002D7A25 /* RickAndMorty-UIKit-MVVM.app */;
@@ -208,6 +224,9 @@
 			);
 			mainGroup = 90EA50652CB2BDA3002D7A25;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				90BAF3232CF9D24C00D00F74 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 90EA506F2CB2BDA3002D7A25 /* Products */;
 			projectDirPath = "";
@@ -561,6 +580,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		90BAF3232CF9D24C00D00F74 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 5.20.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		90BAF3252CFA007F00D00F74 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 90BAF3232CF9D24C00D00F74 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 90EA50662CB2BDA3002D7A25 /* Project object */;
 }
