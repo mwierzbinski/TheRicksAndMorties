@@ -1,4 +1,18 @@
-// ask - enum RickAndMortyList { }
+/* -
+enum CharacterList {
+	class ViewModel {
+		
+	}
+	
+	class ViewController {
+		
+	}
+	
+	class Cell {
+		
+	}
+}
+*/
 
 protocol CharacterListViewModelProtocol: AnyObject {
     var viewState: CharacterListViewModel.ViewState { get }
@@ -42,42 +56,31 @@ class CharacterListViewModel {
         self.dependencies = dependencies
     }
     
-    private func toViewState(with data: [Character]?, error: ClientAPI.Error?) -> ViewState {
-        if error != nil {
-            // Depending on Errors this can even be a factory to create a proper message for each error
-            return .error(state: ErrorViewState(title: "Error, error!", subtitle: "Something went really wrong", image: "ram-error", buttonTitle: "AAArgghhh" ))
-        }
-        
-        if let data {
-            let items = data.map { CharacterCellViewState.init(image: $0.image,
-                                                               name: $0.name,
-                                                               status: $0.status,
-                                                               species: $0.species,
-                                                               lastKnownLocation: $0.location.name,
-                                                               firstSeenLocation: $0.origin.name)
-            }
-            
-            if !items.isEmpty {
-                return .loaded(items: items)
-            }
-        }
-        
-        return .empty(state: .empty)
-    }
+	// should this be extension
+    private func toViewState(with data: [Character]?, error: ClientAPI.Error?) -> ViewState { // decouple
+			if error != nil {
+				return .error(state: .default)
+			}
+			
+			let items = data?.map(\.viewState) ?? []
+			
+			return items.isEmpty ? .empty(state: .empty) : .loaded(items: items)
+		}
 }
 
+// Add Swiftlint
 extension CharacterListViewModel: CharacterListViewModelProtocol {
-    func fetchCharacters() {
-        viewState = .loading(state: .loading)
-        dependencies.api.getCharacters { [weak self] data, error  in
-            if let viewState = self?.toViewState(with: data, error: error) {
-                self?.model = .init(characters: data)
-                self?.viewState = viewState
-            } else {
-                // Should we handle this situation?
-            }
-        }
-    }
+    func fetchCharacters() { // naming - loadData
+			viewState = .loading(state: .loading)
+			dependencies.api.getCharacters { [weak self] data, error in
+				if let viewState = self?.toViewState(with: data, error: error) {
+					self?.model = .init(characters: data)
+					self?.viewState = viewState
+				} else {
+					// Should we handle this situation?
+				}
+			}
+		}
     
     func getCharacterModel(for index: Int) -> Character? {
         return model?.characters?[index]
@@ -131,6 +134,28 @@ extension CharacterListViewModel.ViewState {
         case let .loaded(items): return items
         }
     }
+}
+
+private extension Character {
+	var viewState: CharacterListViewModel.CharacterCellViewState {
+		.init(
+			image: image,
+			name: name,
+			status: status,
+			species: species,
+			lastKnownLocation: location.name,
+			firstSeenLocation: origin.name
+		)
+	}
+}
+
+private extension CharacterListViewModel.ErrorViewState {
+	static let `default`: CharacterListViewModel.ErrorViewState = .init(
+			title: "Error",
+			subtitle: "Something went wrong",
+			image: "ram-error",
+			buttonTitle: "Refresh"
+		)
 }
 
 private extension CharacterListViewModel.EmptyViewState {
