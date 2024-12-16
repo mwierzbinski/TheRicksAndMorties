@@ -23,7 +23,6 @@ protocol CharacterListViewModelProtocol: AnyObject {
 }
 
 protocol CharacterListViewModelOutput: AnyObject {
-    
     func updateUI()
 }
 
@@ -77,6 +76,7 @@ extension CharacterListViewModel: CharacterListViewModelProtocol {
 					self?.model = .init(characters: data)
 					self?.viewState = viewState
 				} else {
+                    
 					// Should we handle this situation?
 				}
 			}

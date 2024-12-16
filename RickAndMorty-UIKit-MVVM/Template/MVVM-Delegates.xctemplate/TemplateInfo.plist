@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Kind
+		This represents the type of the template. 
+		Each template needs to have a type. Every template, this way, 
+		inherits from that template identified with this kind. For File Templates 
+	-->
+	<key>Kind</key>
+		<string>Xcode.IDEKit.TextSubstitutionFileTemplateKind</string>
+
+	<!-- Platforms
+		Array of strings that describes for which platform this template will be available. 
+		It’s optional, we can put com.apple.platform.macosx com.apple.platform.macosx or com.apple.platform.iphoneos,
+		but there are also other platform. If the file template we wanna create is not platform-specific, we can omit this parameter.
+	-->
+	<key>Platforms</key>
+		<array>
+			<string>com.apple.platform.iphoneos</string>
+			<string>com.apple.platform.macosx</string>
+		</array>
+
+	<!-- Options
+		Array of dictionaries. 
+		Every item (Item0, Item1,…) is a dictionary and represent an option we can see in the window 
+		that pops up after choosing the template.
+	-->
+	<key>Options</key>
+	<array>
+		<dict>
+			<!-- Description:
+				The description of the option
+			-->
+			<key>Description</key>
+				<string>Name of the feature</string>
+
+			<!-- Identifier:
+				This represents the name of the variable of the option. 
+				Each item should have a different identifier. 
+				If the type is text we can use this identifier as a variable for text substitution in file’s name and
+				 in the content of the generated file(s).
+
+				 productName - is used in Xcodes Text macros
+			-->
+			<key>Identifier</key> 
+				<string>productName</string>
+
+			<!-- Required:
+			Tells if it’s mandatory to fill this field or not. If yes, the “Next” button will not be active until properly filled
+			-->
+			<key>Required</key>
+				<true/>
+
+			<!-- Name:
+				What will be displayed besides the option.
+			-->
+			<key>Name</key>
+				<string>Feature:</string>
+
+			<!-- Type:
+				This is very important because it defines the type of the field, that can be of type text, checkbox or popup
+			-->
+			<key>Type</key>
+				<string>text</string>
+
+			<!-- NotPersisted:
+				if false tells if the value specified for this option needs to be saved for the next usage or not.
+			 -->
+			<key>NotPersisted</key>
+				<true/>
+		</dict>
+		<dict>
+			<key>Identifier</key>
+            	<string>generateStoryboard</string>
+            <key>Name</key>
+            	<string>Also create a Storybopard</string>
+			<key>Description</key>
+  				<string>Whether to create a Storybopard file with the same name</string>
+            <key>NotPersisted</key>
+            	<false/>
+            <key>SortOrder</key>
+            	<integer>101</integer>
+            <key>Type</key>
+            	<string>checkbox</string>
+            <key>Default</key>
+            	<string>false</string>
+		</dict>
+		<dict> <!-- Delegate Variable --> 
+		    <key>Description</key>
+            	<string>Name of the protocol view will need to implement.</string>
+            <key>Default</key>
+            	<string>___VARIABLE_productName___Delegate</string>
+            <key>Identifier</key>
+            	<string>viewModelDelegate</string>
+        </dict>
+		<dict> <!-- Protocol Variable -->
+		    <key>Description</key>
+            	<string>Name of the protocol that View Model will implement</string>
+            <key>Default</key>
+            	<string>___VARIABLE_productName___Protocol</string>
+            <key>Identifier</key>
+            	<string>viewModelProtocol</string>
+        </dict>
+        <dict>
+            <key>Default</key>
+            	<string>___VARIABLE_productName___ViewModel.swift</string>
+            <key>Description</key>
+            	<string>ViewModel:</string>
+            <key>Identifier</key>
+            	<string>viewModelName</string>
+            <key>Name</key>
+            	<string>ViewModel Name:</string>
+            <key>Type</key>
+            	<string>static</string>
+        </dict>
+		<dict>
+		    <key>Description</key>
+            	<string>Name of the ViewController</string>
+            <key>Default</key>
+            	<string>___VARIABLE_productName___ViewController.swift</string>
+            <key>Identifier</key>
+            	<string>viewControllerName</string>
+            <key>Name</key>
+            	<string>ViewController Name:</string>
+            <key>Type</key>
+            	<string>static</string>
+        </dict>
+	</array>
+</dict>
+</plist>
